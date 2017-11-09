@@ -26,7 +26,6 @@ public class LimitParameter extends AbstractParameter<Integer> {
       allowableValues = "range[0, 100]")
   @Pattern(regexp = "^[1-9][0-9]?$|^100$", message = "limit must be an integer between 1 and 100")
   private final String limit;
-  private final String limitFieldName;
 
   @Inject
   @Named("defaultLimit")
@@ -38,9 +37,8 @@ public class LimitParameter extends AbstractParameter<Integer> {
    * @param param the limit value from a request
    */
   public LimitParameter(String param, String paramFieldName) {
-    super(param);
+    super(param, paramFieldName);
     this.limit = param;
-    this.limitFieldName = paramFieldName;
   }
 
   @Override
@@ -50,12 +48,13 @@ public class LimitParameter extends AbstractParameter<Integer> {
       limit = Integer.parseInt(this.limit);
     } catch (NumberFormatException e) {
       throw InvalidParameterException.create(
-          "Invalid type for '" + limitFieldName + "': " + this.limit + " - int is required.");
+          "Invalid type for '" + this.getParameterFieldName() + "': " + this.limit
+              + " - int is required.");
     }
 
     if (limit < 0 || limit > 100) {
       throw InvalidParameterException.create(
-          "Invalid value for '" + limitFieldName + "': " + this.limit
+          "Invalid value for '" + this.getParameterFieldName() + "': " + this.limit
               + "  - value between 0 and 100 is required.");
     }
 

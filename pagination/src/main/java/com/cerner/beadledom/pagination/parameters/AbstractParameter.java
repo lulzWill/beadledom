@@ -4,6 +4,7 @@ import com.cerner.beadledom.json.common.model.JsonError;
 import com.cerner.beadledom.pagination.parameters.exceptions.InvalidParameterException;
 
 import java.util.Optional;
+
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,14 +21,16 @@ import javax.ws.rs.core.Response;
 public abstract class AbstractParameter<T> {
   private T value;
   private final String originalParameter;
+  private final String parameterFieldName;
 
   /**
    * Constructor for instances of {@link AbstractParameter}.
    *
    * @param param the parameter to parse
    */
-  public AbstractParameter(String param) {
+  public AbstractParameter(String param, String parameterFieldName) {
     this.originalParameter = param;
+    this.parameterFieldName = parameterFieldName;
   }
 
   /**
@@ -40,6 +43,13 @@ public abstract class AbstractParameter<T> {
       throw new WebApplicationException(onError(originalParameter, e));
     }
     return value;
+  }
+
+  /**
+   * Returns the name of the parameter.
+   */
+  public String getParameterFieldName() {
+    return parameterFieldName;
   }
 
   /**

@@ -26,7 +26,6 @@ public class OffsetParameter extends AbstractParameter<Long> {
       allowableValues = "range[0, " + Long.MAX_VALUE + "]")
   @Pattern(regexp = "^0$|^[1-9][0-9]*$", message = "offset must be greater than or equal to zero")
   private final String offset;
-  private final String offsetFieldName;
 
   @Inject
   @Named("defaultOffset")
@@ -38,9 +37,8 @@ public class OffsetParameter extends AbstractParameter<Long> {
    * @param param the offset value from a request
    */
   public OffsetParameter(String param, String paramFieldName) {
-    super(param);
+    super(param, paramFieldName);
     this.offset = param;
-    this.offsetFieldName = paramFieldName;
   }
 
   @Override
@@ -50,12 +48,13 @@ public class OffsetParameter extends AbstractParameter<Long> {
       offset = Long.parseLong(this.offset);
     } catch (NumberFormatException e) {
       throw InvalidParameterException.create(
-          "Invalid type for '" + offsetFieldName + "': " + this.offset + " - int is required.");
+          "Invalid type for '" + this.getParameterFieldName() + "': " + this.offset
+              + " - int is required.");
     }
 
     if (offset < 0) {
       throw InvalidParameterException.create(
-          "Invalid value for '" + offsetFieldName + "': " + this.offset
+          "Invalid value for '" + this.getParameterFieldName() + "': " + this.offset
               + " - positive value or zero required.");
     }
 

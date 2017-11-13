@@ -31,8 +31,22 @@ public class OffsetParameter extends AbstractParameter<Long> {
   @Named("defaultOffset")
   public static Long DEFAULT_OFFSET;
 
+  @Inject
+  @Named("defaultOffsetFieldName")
+  public static String DEFAULT_OFFSET_FIELD_NAME;
+
   /**
    * Creates an instance of {@link OffsetParameter}.
+   *
+   * @param param the offset value from a request
+   */
+  public OffsetParameter(String param) {
+    super(param, DEFAULT_OFFSET_FIELD_NAME);
+    this.offset = param;
+  }
+
+  /**
+   * Creates an instance of {@link OffsetParameter} with a non-default field name.
    *
    * @param param the offset value from a request
    */

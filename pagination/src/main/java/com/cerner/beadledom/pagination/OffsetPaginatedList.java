@@ -1,5 +1,8 @@
 package com.cerner.beadledom.pagination;
 
+import com.cerner.beadledom.pagination.parameters.LimitParameter;
+import com.cerner.beadledom.pagination.parameters.OffsetParameter;
+
 import com.google.auto.value.AutoValue;
 
 import java.util.ArrayList;
@@ -19,8 +22,8 @@ public abstract class OffsetPaginatedList<T> {
   public abstract List<T> items();
 
   /**
-   * Returns the {@link OffsetPaginatedListMetadata} for the {@link OffsetPaginatedList}; null if
-   * not provided.
+   * Returns the {@link OffsetPaginatedListMetadata} for the {@link OffsetPaginatedList};
+   * {@link BeadledomPaginationModule}
    */
   public abstract OffsetPaginatedListMetadata metadata();
 
@@ -30,8 +33,10 @@ public abstract class OffsetPaginatedList<T> {
    * @return instance of {@link OffsetPaginatedList.Builder}
    */
   public static <T> OffsetPaginatedList.Builder<T> builder() {
-    return new AutoValue_OffsetPaginatedList.Builder<T>()
-        .items(new ArrayList<>()).metadata(null, "offset", null, "limit", null, null);
+    return new AutoValue_OffsetPaginatedList.Builder<T>().items(new ArrayList<>())
+        .metadata(
+            LimitParameter.DEFAULT_LIMIT_FIELD_NAME, null,
+            OffsetParameter.DEFAULT_OFFSET_FIELD_NAME, null, null, null);
   }
 
   @AutoValue.Builder
@@ -45,20 +50,43 @@ public abstract class OffsetPaginatedList<T> {
      * Convenience method that allows metadata to be set without having to manually build a
      * {@link OffsetPaginatedListMetadata} object.
      *
-     * @return The {@link OffsetPaginatedList.Builder<T>} being used
+     * @param limitFieldName the limit field name used to create the page.
+     * @param limit the limit used to create the page.
+     * @param offsetFieldName the offset field name used to create the page.
+     * @param offset the offset used to create the page.
+     * @param totalResults the total results available.
+     * @param hasMore indicates if there are more results available.
+     * @return The {@link OffsetPaginatedList.Builder<T>} being used.
      */
     public OffsetPaginatedList.Builder<T> metadata(
-        Long offset, String offsetFieldName, Integer limit, String limitFieldName,
+        String limitFieldName, Integer limit, String offsetFieldName, Long offset,
         Long totalResults, Boolean hasMore) {
       return metadata(OffsetPaginatedListMetadata.builder()
-          .offset(offset)
-          .offsetFieldName(offsetFieldName)
-          .limit(limit)
           .limitFieldName(limitFieldName)
+          .limit(limit)
+          .offsetFieldName(offsetFieldName)
+          .offset(offset)
           .totalResults(totalResults)
           .hasMore(hasMore)
           .build()
       );
+    }
+
+    /**
+     * Convenience method that allows metadata to be set using configured field names
+     * without having to manually build a {@link OffsetPaginatedListMetadata} object.
+     *
+     * @param limit the limit used to create the page.
+     * @param offset the offset used to create the page.
+     * @param totalResults the total results available.
+     * @param hasMore indicates if there are more results available.
+     * @return The {@link OffsetPaginatedList.Builder<T>} being used.
+     */
+    public OffsetPaginatedList.Builder<T> metadata(
+        Integer limit, Long offset, Long totalResults, Boolean hasMore) {
+      return metadata(
+          LimitParameter.DEFAULT_LIMIT_FIELD_NAME, limit, OffsetParameter.DEFAULT_OFFSET_FIELD_NAME,
+          offset, totalResults, hasMore);
     }
 
     public abstract OffsetPaginatedList<T> build();

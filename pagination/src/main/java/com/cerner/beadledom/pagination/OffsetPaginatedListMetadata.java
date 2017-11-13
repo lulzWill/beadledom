@@ -1,5 +1,8 @@
 package com.cerner.beadledom.pagination;
 
+import com.cerner.beadledom.pagination.parameters.LimitParameter;
+import com.cerner.beadledom.pagination.parameters.OffsetParameter;
+
 import com.google.auto.value.AutoValue;
 
 import javax.annotation.Nullable;
@@ -28,26 +31,32 @@ public abstract class OffsetPaginatedListMetadata {
 
   /**
    * Returns the page offset that was used to create the current page; null if not set.
+   * Uses the configured default field value if not set, null if not using
+   * {@link BeadledomPaginationModule}
    */
   @Nullable
   public abstract Long offset();
 
   /**
    * Returns the name of the page offset field that was used to create the current page;
-   * null if not set.
+   * Uses the configured default field name if not set, null if not using
+   * {@link BeadledomPaginationModule}
    */
   @Nullable
   public abstract String offsetFieldName();
 
   /**
    * Returns the page limit that was used to create the current page; null if not set.
+   * Uses the configured default field value if not set, null if not using
+   * {@link BeadledomPaginationModule}
    */
   @Nullable
   public abstract Integer limit();
 
   /**
    * Returns the name of the page limit field that was used to create the current page;
-   * null if not set.
+   * Uses the configured default field name if not set, null if not using
+   * {@link BeadledomPaginationModule}
    */
   @Nullable
   public abstract String limitFieldName();
@@ -58,7 +67,9 @@ public abstract class OffsetPaginatedListMetadata {
    * @return instance of {@link OffsetPaginatedListMetadata.Builder}
    */
   public static OffsetPaginatedListMetadata.Builder builder() {
-    return new AutoValue_OffsetPaginatedListMetadata.Builder();
+    return new AutoValue_OffsetPaginatedListMetadata.Builder()
+        .offsetFieldName(OffsetParameter.DEFAULT_OFFSET_FIELD_NAME)
+        .limitFieldName(LimitParameter.DEFAULT_LIMIT_FIELD_NAME);
   }
 
   @AutoValue.Builder
@@ -84,12 +95,8 @@ public abstract class OffsetPaginatedListMetadata {
     @Nullable
     abstract Long offset();
 
-    abstract String offsetFieldName();
-
     @Nullable
     abstract Integer limit();
-
-    abstract String limitFieldName();
 
     abstract OffsetPaginatedListMetadata autoBuild();
 
@@ -98,13 +105,6 @@ public abstract class OffsetPaginatedListMetadata {
         hasMore(totalResults() > limit() + offset());
       }
 
-      if(offsetFieldName() == null) {
-        offsetFieldName("offset");
-      }
-
-      if(limitFieldName() == null) {
-        limitFieldName("limit");
-      }
       return autoBuild();
     }
   }

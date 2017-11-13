@@ -31,10 +31,25 @@ public class LimitParameter extends AbstractParameter<Integer> {
   @Named("defaultLimit")
   public static Integer DEFAULT_LIMIT;
 
+  @Inject
+  @Named("defaultLimitFieldName")
+  public static String DEFAULT_LIMIT_FIELD_NAME;
+
   /**
    * Creates an instance of {@link LimitParameter}.
    *
    * @param param the limit value from a request
+   */
+  public LimitParameter(String param) {
+    super(param, DEFAULT_LIMIT_FIELD_NAME);
+    this.limit = param;
+  }
+
+  /**
+   * Creates an instance of {@link LimitParameter} with a non-default field name.
+   *
+   * @param param the limit value from a request
+   * @param paramFieldName the name of the limit field being
    */
   public LimitParameter(String param, String paramFieldName) {
     super(param, paramFieldName);

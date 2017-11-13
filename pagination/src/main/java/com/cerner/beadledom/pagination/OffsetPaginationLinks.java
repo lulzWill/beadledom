@@ -26,15 +26,14 @@ class OffsetPaginationLinks {
   private final String currentLimitFieldName;
 
   private OffsetPaginationLinks(
-      OffsetPaginatedList list, UriInfo uriInfo, Long currentOffset, String currentOffsetFieldName,
-      Integer currentLimit, String currentLimitFieldName) {
+      OffsetPaginatedList list, UriInfo uriInfo, Long currentOffset, Integer currentLimit) {
     this.uriInfo = uriInfo;
     this.totalResults = list.metadata().totalResults();
     this.hasMore = list.metadata().hasMore();
     this.currentOffset = currentOffset;
-    this.currentOffsetFieldName = currentOffsetFieldName;
+    this.currentOffsetFieldName = list.metadata().offsetFieldName();
     this.currentLimit = currentLimit;
-    this.currentLimitFieldName = currentLimitFieldName;
+    this.currentLimitFieldName = list.metadata().limitFieldName();
   }
 
   /**
@@ -54,9 +53,7 @@ class OffsetPaginationLinks {
         list.metadata().limit() != null ? list.metadata().limit()
             : currentLimit(uriInfo, list.metadata().limitFieldName());
 
-    return new OffsetPaginationLinks(
-        list, uriInfo, offset, list.metadata().offsetFieldName(), limit,
-        list.metadata().limitFieldName());
+    return new OffsetPaginationLinks(list, uriInfo, offset, limit);
   }
 
   private static Long currentOffset(UriInfo uriInfo, String offsetFieldName) {

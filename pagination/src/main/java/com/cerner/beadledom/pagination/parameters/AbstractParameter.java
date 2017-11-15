@@ -40,7 +40,7 @@ public abstract class AbstractParameter<T> {
     try {
       value = parse(originalParameter);
     } catch (InvalidParameterException e) {
-      throw new WebApplicationException(onError(originalParameter, e));
+      throw new WebApplicationException(onError(e));
     }
     return value;
   }
@@ -89,7 +89,7 @@ public abstract class AbstractParameter<T> {
    */
   protected abstract T parse(String param) throws InvalidParameterException;
 
-  protected Response onError(String param, InvalidParameterException e) {
+  protected Response onError(InvalidParameterException e) {
     return Response.status(
         Response.Status.BAD_REQUEST)
         .type(MediaType.APPLICATION_JSON)

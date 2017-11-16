@@ -26,10 +26,10 @@ public class BeadledomPaginationModule extends AbstractModule {
   private final Long defaultOffset;
   private final String defaultOffsetFieldName;
 
-  private final static Integer BEADLEDOM_DEFAULT_LIMIT = 20;
-  private final static String BEADLEDOM_DEFAULT_LIMIT_FIELD_NAME = "limit";
-  private final static Long BEADLEDOM_DEFAULT_OFFSET = 0L;
-  private final static String BEADLEDOM_DEFAULT_OFFSET_FIELD_NAME = "offset";
+  private static final Integer BEADLEDOM_DEFAULT_LIMIT = 20;
+  private static final String BEADLEDOM_DEFAULT_LIMIT_FIELD_NAME = "limit";
+  private static final Long BEADLEDOM_DEFAULT_OFFSET = 0L;
+  private static final String BEADLEDOM_DEFAULT_OFFSET_FIELD_NAME = "offset";
 
   /**
    * Default constructor that sets the configurable fields using the Beadledom defaults.

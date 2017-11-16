@@ -1,5 +1,6 @@
 package com.cerner.beadledom.pagination.parameters;
 
+import javax.validation.Valid;
 import javax.ws.rs.QueryParam;
 
 /**
@@ -7,22 +8,25 @@ import javax.ws.rs.QueryParam;
  *
  * <p>This class can be added with the @BeanParam annotation to add the query parameters needed
  * to support offset based pagination. Allows for injection of default values for limit and offset.
+ * *NOTE* This will not work with configured field names.
  *
  * @author Will Pruyn
  * @since 2.7
  */
 public class PaginationParameters {
+  @Valid
   @QueryParam("limit")
-  private Integer limit;
+  private LimitParameter limit;
 
+  @Valid
   @QueryParam("offset")
-  private Long offset;
+  private OffsetParameter offset;
 
   public Integer getLimit() {
-    return limit != null ? limit : LimitParameter.DEFAULT_LIMIT;
+    return limit != null ? limit.getValue() : LimitParameter.getDefaultLimit();
   }
 
   public Long getOffset() {
-    return offset != null ? offset : OffsetParameter.DEFAULT_OFFSET;
+    return offset != null ? offset.getValue() : OffsetParameter.getDefaultOffset();
   }
 }

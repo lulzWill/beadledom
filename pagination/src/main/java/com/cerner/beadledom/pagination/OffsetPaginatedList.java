@@ -23,7 +23,7 @@ public abstract class OffsetPaginatedList<T> {
 
   /**
    * Returns the {@link OffsetPaginatedListMetadata} for the {@link OffsetPaginatedList};
-   * {@link BeadledomPaginationModule}
+   * {@link BeadledomPaginationModule}.
    */
   public abstract OffsetPaginatedListMetadata metadata();
 
@@ -35,8 +35,8 @@ public abstract class OffsetPaginatedList<T> {
   public static <T> OffsetPaginatedList.Builder<T> builder() {
     return new AutoValue_OffsetPaginatedList.Builder<T>().items(new ArrayList<>())
         .metadata(
-            LimitParameter.DEFAULT_LIMIT_FIELD_NAME, null,
-            OffsetParameter.DEFAULT_OFFSET_FIELD_NAME, null, null, null);
+            LimitParameter.getDefaultLimitFieldName(), null,
+            OffsetParameter.getDefaultOffsetFieldName(), null, null, null);
   }
 
   @AutoValue.Builder
@@ -56,7 +56,7 @@ public abstract class OffsetPaginatedList<T> {
      * @param offset the offset used to create the page.
      * @param totalResults the total results available.
      * @param hasMore indicates if there are more results available.
-     * @return The {@link OffsetPaginatedList.Builder<T>} being used.
+     * @return The {@link Builder} being used for the {@link OffsetPaginatedList}.
      */
     public OffsetPaginatedList.Builder<T> metadata(
         String limitFieldName, Integer limit, String offsetFieldName, Long offset,
@@ -80,13 +80,13 @@ public abstract class OffsetPaginatedList<T> {
      * @param offset the offset used to create the page.
      * @param totalResults the total results available.
      * @param hasMore indicates if there are more results available.
-     * @return The {@link OffsetPaginatedList.Builder<T>} being used.
+     * @return The {@link Builder} being used for the {@link OffsetPaginatedList}.
      */
     public OffsetPaginatedList.Builder<T> metadata(
         Integer limit, Long offset, Long totalResults, Boolean hasMore) {
       return metadata(
-          LimitParameter.DEFAULT_LIMIT_FIELD_NAME, limit, OffsetParameter.DEFAULT_OFFSET_FIELD_NAME,
-          offset, totalResults, hasMore);
+          LimitParameter.getDefaultLimitFieldName(), limit,
+          OffsetParameter.getDefaultOffsetFieldName(), offset, totalResults, hasMore);
     }
 
     public abstract OffsetPaginatedList<T> build();

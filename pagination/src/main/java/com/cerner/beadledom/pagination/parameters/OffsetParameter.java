@@ -1,5 +1,6 @@
 package com.cerner.beadledom.pagination.parameters;
 
+import com.cerner.beadledom.pagination.BeadledomPaginationModule;
 import com.cerner.beadledom.pagination.parameters.exceptions.InvalidParameterException;
 
 import com.google.inject.Inject;
@@ -29,11 +30,11 @@ public class OffsetParameter extends AbstractParameter<Long> {
 
   @Inject
   @Named("defaultOffset")
-  public static Long DEFAULT_OFFSET;
+  private static Long defaultOffset;
 
   @Inject
   @Named("defaultOffsetFieldName")
-  public static String DEFAULT_OFFSET_FIELD_NAME;
+  private static String defaultOffsetFieldName;
 
   /**
    * Creates an instance of {@link OffsetParameter}.
@@ -41,7 +42,7 @@ public class OffsetParameter extends AbstractParameter<Long> {
    * @param param the offset value from a request
    */
   public OffsetParameter(String param) {
-    super(param, DEFAULT_OFFSET_FIELD_NAME);
+    super(param, defaultOffsetFieldName);
     this.offset = param;
   }
 
@@ -73,5 +74,23 @@ public class OffsetParameter extends AbstractParameter<Long> {
     }
 
     return offset;
+  }
+
+  /**
+   * Retrieves the configured default offset value; null if not using the
+   * {@link BeadledomPaginationModule}.
+   * @return the default offset value.
+   */
+  public static Long getDefaultOffset() {
+    return defaultOffset;
+  }
+
+  /**
+   * Retrieves the configured default offset field name; null if not using the
+   * {@link BeadledomPaginationModule}.
+   * @return the default offset field name.
+   */
+  public static String getDefaultOffsetFieldName() {
+    return defaultOffsetFieldName;
   }
 }

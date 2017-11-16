@@ -1,5 +1,6 @@
 package com.cerner.beadledom.pagination.parameters;
 
+import com.cerner.beadledom.pagination.BeadledomPaginationModule;
 import com.cerner.beadledom.pagination.parameters.exceptions.InvalidParameterException;
 
 import com.google.inject.Inject;
@@ -29,11 +30,11 @@ public class LimitParameter extends AbstractParameter<Integer> {
 
   @Inject
   @Named("defaultLimit")
-  public static Integer DEFAULT_LIMIT;
+  private static Integer defaultLimit;
 
   @Inject
   @Named("defaultLimitFieldName")
-  public static String DEFAULT_LIMIT_FIELD_NAME;
+  private static String defaultLimitFieldName;
 
   /**
    * Creates an instance of {@link LimitParameter}.
@@ -41,7 +42,7 @@ public class LimitParameter extends AbstractParameter<Integer> {
    * @param param the limit value from a request
    */
   public LimitParameter(String param) {
-    super(param, DEFAULT_LIMIT_FIELD_NAME);
+    super(param, defaultLimitFieldName);
     this.limit = param;
   }
 
@@ -74,5 +75,23 @@ public class LimitParameter extends AbstractParameter<Integer> {
     }
 
     return limit;
+  }
+
+  /**
+   * Retrieves the configured default limit value; null if not using the
+   * {@link BeadledomPaginationModule}.
+   * @return the default limit value.
+   */
+  public static Integer getDefaultLimit() {
+    return defaultLimit;
+  }
+
+  /**
+   * Retrieves the configured default limite field name; null if not using the
+   * {@link BeadledomPaginationModule}.
+   * @return the default limit field name.
+   */
+  public static String getDefaultLimitFieldName() {
+    return defaultLimitFieldName;
   }
 }

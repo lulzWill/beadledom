@@ -32,7 +32,7 @@ public abstract class OffsetPaginatedListMetadata {
   /**
    * Returns the page offset that was used to create the current page; null if not set.
    * Uses the configured default field value if not set, null if not using
-   * {@link BeadledomPaginationModule}
+   * {@link BeadledomPaginationModule}.
    */
   @Nullable
   public abstract Long offset();
@@ -40,7 +40,7 @@ public abstract class OffsetPaginatedListMetadata {
   /**
    * Returns the name of the page offset field that was used to create the current page;
    * Uses the configured default field name if not set, null if not using
-   * {@link BeadledomPaginationModule}
+   * {@link BeadledomPaginationModule}.
    */
   @Nullable
   public abstract String offsetFieldName();
@@ -48,7 +48,7 @@ public abstract class OffsetPaginatedListMetadata {
   /**
    * Returns the page limit that was used to create the current page; null if not set.
    * Uses the configured default field value if not set, null if not using
-   * {@link BeadledomPaginationModule}
+   * {@link BeadledomPaginationModule}.
    */
   @Nullable
   public abstract Integer limit();
@@ -56,7 +56,7 @@ public abstract class OffsetPaginatedListMetadata {
   /**
    * Returns the name of the page limit field that was used to create the current page;
    * Uses the configured default field name if not set, null if not using
-   * {@link BeadledomPaginationModule}
+   * {@link BeadledomPaginationModule}.
    */
   @Nullable
   public abstract String limitFieldName();
@@ -68,38 +68,43 @@ public abstract class OffsetPaginatedListMetadata {
    */
   public static OffsetPaginatedListMetadata.Builder builder() {
     return new AutoValue_OffsetPaginatedListMetadata.Builder()
-        .offsetFieldName(OffsetParameter.DEFAULT_OFFSET_FIELD_NAME)
-        .limitFieldName(LimitParameter.DEFAULT_LIMIT_FIELD_NAME);
+        .offsetFieldName(OffsetParameter.getDefaultOffsetFieldName())
+        .limitFieldName(LimitParameter.getDefaultLimitFieldName());
   }
 
   @AutoValue.Builder
   public abstract static class Builder {
+    @Nullable
+    abstract Boolean hasMore();
+
     public abstract OffsetPaginatedListMetadata.Builder hasMore(Boolean hasMore);
 
+    @Nullable
+    abstract Long totalResults();
+
     public abstract OffsetPaginatedListMetadata.Builder totalResults(Long totalResults);
+
+    @Nullable
+    abstract Long offset();
 
     public abstract OffsetPaginatedListMetadata.Builder offset(Long offset);
 
     public abstract OffsetPaginatedListMetadata.Builder offsetFieldName(String offsetFieldName);
 
+    @Nullable
+    abstract Integer limit();
+
     public abstract OffsetPaginatedListMetadata.Builder limit(Integer limit);
 
     public abstract OffsetPaginatedListMetadata.Builder limitFieldName(String limitFieldName);
 
-    @Nullable
-    abstract Boolean hasMore();
-
-    @Nullable
-    abstract Long totalResults();
-
-    @Nullable
-    abstract Long offset();
-
-    @Nullable
-    abstract Integer limit();
-
     abstract OffsetPaginatedListMetadata autoBuild();
 
+    /**
+     * Creates an instance of {@link OffsetPaginatedListMetadata}; hasMore will be derived from
+     * limit, offset, and totalResults if it is not provided.
+     * @return the {@link OffsetPaginatedListMetadata} that was built.
+     */
     public OffsetPaginatedListMetadata build() {
       if (limit() != null && offset() != null && totalResults() != null && hasMore() == null) {
         hasMore(totalResults() > limit() + offset());

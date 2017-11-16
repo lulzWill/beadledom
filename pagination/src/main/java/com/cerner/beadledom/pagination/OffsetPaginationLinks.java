@@ -59,13 +59,13 @@ class OffsetPaginationLinks {
   private static Long currentOffset(UriInfo uriInfo, String offsetFieldName) {
     String offset = uriInfo.getQueryParameters().getFirst(offsetFieldName);
     return offset != null ? new OffsetParameter(offset, offsetFieldName).getValue()
-        : OffsetParameter.DEFAULT_OFFSET;
+        : OffsetParameter.getDefaultOffset();
   }
 
   private static Integer currentLimit(UriInfo uriInfo, String limitFieldName) {
     String limit = uriInfo.getQueryParameters().getFirst(limitFieldName);
     return limit != null ? new LimitParameter(limit, limitFieldName).getValue()
-        : LimitParameter.DEFAULT_LIMIT;
+        : LimitParameter.getDefaultLimit();
   }
 
   /**

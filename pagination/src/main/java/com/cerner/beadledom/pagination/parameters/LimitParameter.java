@@ -17,6 +17,7 @@ import javax.validation.constraints.Pattern;
  * so that the same rules may be applied consistently across all paged
  * resources.
  *
+ * @author Brian van de Boogaard
  * @author Will Pruyn
  * @since 2.7
  */

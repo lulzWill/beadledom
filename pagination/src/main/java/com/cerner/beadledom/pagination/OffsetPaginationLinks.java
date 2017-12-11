@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Given an {@link OffsetPaginatedList} this class encapsulates the pagination links for the list.
  *
+ * @author John Leacox
  * @author Will Pruyn
  * @since 2.7
  */

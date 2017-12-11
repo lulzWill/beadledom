@@ -10,7 +10,7 @@ import java.util.Objects;
  * <p>Contains metadata used to build {@link Error} and {@link ErrorDetail} for the resulting
  * JSON response.
  *
- * @author Will Pruyn
+ * @author Brian van de Boogaard
  * @since 2.7
  */
 public final class InvalidParameterException extends RuntimeException {

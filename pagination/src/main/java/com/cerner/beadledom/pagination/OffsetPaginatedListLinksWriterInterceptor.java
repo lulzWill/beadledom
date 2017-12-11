@@ -13,6 +13,7 @@ import javax.ws.rs.ext.WriterInterceptorContext;
  * A {@link WriterInterceptor} for adding offset pagination links for {@link OffsetPaginatedList}
  * prior serialization.
  *
+ * @author John Leacox
  * @author Will Pruyn
  * @since 2.7
  */

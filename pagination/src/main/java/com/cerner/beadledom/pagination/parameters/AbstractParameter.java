@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
  * <p>Provides a hook for the validation of parameters as well as enforcing a consistent error
  * structure.
  *
+ * @author Brian van de Boogaard
  * @author Will Pruyn
  * @since 2.7
  */

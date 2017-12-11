@@ -1,7 +1,7 @@
 package com.cerner.beadledom.pagination.parameters;
 
-import javax.validation.Valid;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * Query parameters for an endpoint with offset based pagination.
@@ -14,19 +14,32 @@ import javax.ws.rs.QueryParam;
  * @since 2.7
  */
 public class PaginationParameters {
-  @Valid
-  @QueryParam("limit")
-  private LimitParameter limit;
+  @Context
+  UriInfo uriInfo;
 
-  @Valid
-  @QueryParam("offset")
-  private OffsetParameter offset;
-
+  /**
+   * Retrieves the value of the limit field from the request. Will use the configured field name
+   * to find the parameter.
+   * @return The value of the limit.
+   */
   public Integer getLimit() {
-    return limit != null ? limit.getValue() : LimitParameter.getDefaultLimit();
+    String limitFromRequest =
+        uriInfo.getQueryParameters().getFirst(LimitParameter.getDefaultLimitFieldName());
+
+    return limitFromRequest != null ? new LimitParameter(limitFromRequest).getValue()
+        : LimitParameter.getDefaultLimit();
   }
 
+  /**
+   * Retrieves the value of the offset field from the request. Will use the configured field name
+   * to find the parameter
+   * @return The value of the offset.
+   */
   public Long getOffset() {
-    return offset != null ? offset.getValue() : OffsetParameter.getDefaultOffset();
+    String offsetFromRequest =
+        uriInfo.getQueryParameters().getFirst(OffsetParameter.getDefaultOffsetFieldName());
+
+    return offsetFromRequest != null ? new OffsetParameter(offsetFromRequest).getValue()
+        : OffsetParameter.getDefaultOffset();
   }
 }
